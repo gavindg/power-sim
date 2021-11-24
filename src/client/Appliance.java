@@ -20,7 +20,7 @@ public class Appliance {
 	}
 	
 	// non-default constructor
-	Appliance(String name, int onWattage, int offWattage, double probOn, int ID)  
+	Appliance(int ID, String name, int onWattage, double probOn, int offWattage)  
 	{
 		setName(name);
 		setOnWattage(onWattage);
