@@ -8,7 +8,7 @@ public class SmartAppliance extends Appliance{
 		super();
 	}
 	
-	public SmartAppliance(String name, int onWattage, int offWattage, double probOn, int location, int ID, int lowWattage){
+	public SmartAppliance(String name, int onWattage, int offWattage, double probOn, int ID, int lowWattage){
 		super(name, onWattage, offWattage, probOn, ID);
 		setLowWattage(lowWattage);
 	}
