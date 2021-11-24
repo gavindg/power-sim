@@ -2,6 +2,7 @@
 package client;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 class AppClient{
 	
@@ -33,7 +34,7 @@ class AppClient{
 		AppClient app = new AppClient();
 		//User interactive part
 		String option1, option2;
-		scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		while(true){// Application menu to be displayed to the user.
 			System.out.println("Select an option:");
 			System.out.println("Type \"A\" Add an appliance");
