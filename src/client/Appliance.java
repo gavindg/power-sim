@@ -5,8 +5,8 @@ public class Appliance {
 	protected int onWattage;
 	protected int offWattage;
 	protected double probOn;
-	protected int location;
 	protected int ID;
+	protected int currentWattage;
 	
 	// default constructor
 	Appliance() 
@@ -15,19 +15,19 @@ public class Appliance {
 		setOnWattage(0);
 		setOffWattage(0);
 		setProbOn(0);
-		setLocation(0);
 		setID(0);
+		currentWattage = 0;
 	}
 	
 	// non-default constructor
-	Appliance(String name, int onWattage, int offWattage, double probOn, int location, int ID)  
+	Appliance(String name, int onWattage, int offWattage, double probOn, int ID)  
 	{
 		setName(name);
 		setOnWattage(onWattage);
 		setOffWattage(offWattage);
 		setProbOn(probOn);
-		setLocation(location);
 		setID(ID);
+		currentWattage = onWattage;
 	}
 	
 	// accessors
@@ -50,15 +50,14 @@ public class Appliance {
 	{
 		return this.probOn;
 	}
-	
-	public int getLocation() 
-	{
-		return this.location;
-	}
-	
+
 	public int getID() 
 	{ 
 		return this.ID;
+	}
+	
+	public int getWattage() {
+		return currentWattage;
 	}
 	
 	// mutators
@@ -77,14 +76,10 @@ public class Appliance {
 		this.offWattage = offWattage;
 	}
 	
+	
 	public void setProbOn(double probOn) 
 	{
 		this.probOn = probOn;
-	}
-	
-	public void setLocation(int location) 
-	{
-		this.location = location;
 	}
 	
 	public void setID(int ID) 
@@ -92,5 +87,13 @@ public class Appliance {
 		this.ID = ID;
 	}
 	
+	// switchers
 	
+	public void turnOn() {
+		currentWattage = getOnWattage();
+	}
+	
+	public void turnOff() {
+		currentWattage = getOffWattage();
+	}
 }
