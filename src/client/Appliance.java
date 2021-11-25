@@ -56,8 +56,26 @@ public class Appliance {
 		return this.ID;
 	}
 	
+	
+	/* This function gets the wattage of an appliance, randomly generating if it is on or off. */
 	public int getWattage() {
+		this.generateWattage();
 		return currentWattage;
+	}
+	
+	/* TODO: document this
+	 * */
+	private void generateWattage() 
+	{
+		boolean on = Randomizer.randomOnOff(this.getProbOn());
+		if (on) 
+		{
+			this.setWattage(this.getOnWattage());
+		}
+		else 
+		{
+			this.setWattage(this.getOffWattage());
+		}
 	}
 	
 	// mutators
@@ -74,6 +92,11 @@ public class Appliance {
 	public void setOffWattage(int offWattage) 
 	{
 		this.offWattage = offWattage;
+	}
+	
+	private void setWattage(int cw) 
+	{
+		this.currentWattage = cw;
 	}
 	
 	
