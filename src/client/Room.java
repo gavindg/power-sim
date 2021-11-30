@@ -40,19 +40,6 @@ public class Room {
 			}
 		}
 	}
-
-	/* This function sums the total wattage of a room, assuming that all appliances are off. 
-	 * This will be used for "browning out" a room. */
-	public int getTotalWattageOff() 
-	{
-		Iterator<Appliance> it = room.iterator();
-		int total = 0;
-		while (it.hasNext()) 
-		{
-			total += it.next().getOffWattage();
-		} 
-		return total;
-	}
 	
 	/* This function sums the total wattage of a room assuming that all appliances are on. 
 	 * If I'm honest, I have no idea if this will actually be useful, but I'll keep it just
