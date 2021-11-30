@@ -66,7 +66,7 @@ public class Appliance {
 		}
 		else 
 		{
-			this.setWattage(this.getOffWattage());
+			this.setWattage(0);
 		}
 	}
 	
