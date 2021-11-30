@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 
 public class ApplianceGenerator {
+	
 	public static class Appliance {
 		public String name;
 		public int onW, offW; 
@@ -68,6 +69,7 @@ Smart appliances (if "on") power reduction percent when changed to "low" status(
 					bw.write(String.valueOf(app[index].probSmart));
 					bw.newLine( );
 					bw.flush();
+					bw.close();
 				}
 			}
 		}
