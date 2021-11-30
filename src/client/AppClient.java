@@ -43,13 +43,14 @@ class AppClient{
 				Appliance app;
 				
 				if (isSmart.equals("false")) {
-					app = new Appliance(locationID, appName, onPower, probOn, 0);
+					app = new Appliance(locationID, appName, onPower, probOn);
 				}
 				else {
-					app = new SmartAppliance(locationID, appName, onPower, probOn, lowRatio, 0);
+					app = new SmartAppliance(locationID, appName, onPower, probOn, lowRatio);
 				}
 				
 				totalRooms.get(i).addAppliance(app);
+
 			}
 			
 			scan.close();
