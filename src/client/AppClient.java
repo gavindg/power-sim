@@ -59,12 +59,21 @@ class AppClient{
 			System.out.println("The file can not be read");
 		}
 	}
+	
+	
 	public static void main(String []args){
 		
 		AppClient app = new AppClient();
 		//User interactive part
 		String option1, option2;
 		Scanner scan = new Scanner(System.in);
+		int maxWattage, timeSteps;
+		System.out.println("Enter total wattage: ");
+		maxWattage = scan.nextInt();
+		System.out.println("Enter number of time steps: ");
+		timeSteps = scan.nextInt();
+		
+		
 		while(true){// Application menu to be displayed to the user.
 			System.out.println("Select an option:");
 			System.out.println("Type \"A\" Add an appliance");
