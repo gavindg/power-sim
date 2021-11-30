@@ -2,7 +2,7 @@ package client;
 import java.util.*;
 
 public class Room {
-	Set<Appliance> room = new HashSet<>();
+	private Set<Appliance> room = new HashSet<>();
 	int roomID;
 	boolean isFullyOptimized = false;
 	
@@ -39,6 +39,7 @@ public class Room {
 				((SmartAppliance) ap).changeToLow();
 			}
 		}
+	}
 
 	/* This function sums the total wattage of a room, assuming that all appliances are off. 
 	 * This will be used for "browning out" a room. */
@@ -65,5 +66,10 @@ public class Room {
 		return total;
 
 	}
+	
+	public void addAppliance(Appliance app) {
+		room.add(app);
+	}
+	
 }
 
