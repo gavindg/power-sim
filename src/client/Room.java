@@ -4,6 +4,7 @@ import java.util.*;
 public class Room {
 	Set<Appliance> room = new HashSet<>();
 	int roomID;
+	boolean isFullyOptimized = false;
 	
 	public Room() {
 		roomID = 0;
@@ -13,10 +14,13 @@ public class Room {
 		roomID = ID;
 	}
 	
-	/* This function sums the wattage of a room, randomly picking some appliances to be on 
-	 * and some to be off. */
-	public int getTotalWattage() 
-	{
+
+	public int getRoomID() {
+		return roomID;
+	}
+	
+	public int getTotalWattage() {
+
 		Iterator<Appliance> it = room.iterator();
 		int total = 0;
 		while (it.hasNext()) 
@@ -26,6 +30,16 @@ public class Room {
 		return total;
 	}
 	
+
+	public void optimize() {
+		Iterator<Appliance> it = room.iterator();
+		while(it.hasNext()) {
+			Appliance ap = it.next();
+			if(ap instanceof SmartAppliance) {
+				((SmartAppliance) ap).changeToLow();
+			}
+		}
+
 	/* This function sums the total wattage of a room, assuming that all appliances are off. 
 	 * This will be used for "browning out" a room. */
 	public int getTotalWattageOff() 
@@ -49,5 +63,7 @@ public class Room {
 			total += it.next().getOnWattage();
 		}
 		return total;
+
 	}
 }
+
