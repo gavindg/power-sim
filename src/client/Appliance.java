@@ -3,7 +3,6 @@ package client;
 public class Appliance {
 	protected String name;
 	protected int onWattage;
-	protected int offWattage;
 	protected double probOn;
 	protected int ID;
 	protected int currentWattage;
@@ -13,7 +12,6 @@ public class Appliance {
 	{
 		setName("empty");
 		setOnWattage(0);
-		setOffWattage(0);
 		setProbOn(0);
 		setID(0);
 		currentWattage = 0;
@@ -24,7 +22,6 @@ public class Appliance {
 	{
 		setName(name);
 		setOnWattage(onWattage);
-		setOffWattage(offWattage);
 		setProbOn(probOn);
 		setID(ID);
 		currentWattage = onWattage;
@@ -39,11 +36,6 @@ public class Appliance {
 	public int getOnWattage() 
 	{
 		return this.onWattage;
-	}
-	
-	public int getOffWattage() 
-	{
-		return this.offWattage;
 	}
 	
 	public double getProbOn() 
@@ -71,10 +63,6 @@ public class Appliance {
 		this.onWattage = onWattage;
 	}
 	
-	public void setOffWattage(int offWattage) 
-	{
-		this.offWattage = offWattage;
-	}
 	
 	
 	public void setProbOn(double probOn) 
@@ -94,6 +82,6 @@ public class Appliance {
 	}
 	
 	public void turnOff() {
-		currentWattage = getOffWattage();
+		currentWattage = 0;
 	}
 }
