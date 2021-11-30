@@ -3,22 +3,36 @@ package client;
 public class SmartAppliance extends Appliance{
 	
 	private int lowW;
+	private double lowRatio;
 	
 	public SmartAppliance() {
 		super();
 	}
 	
-	public SmartAppliance(String name, int onWattage, int offWattage, double probOn, int location, int ID, int lowWattage){
-		super(name, onWattage, offWattage, probOn, ID);
-		setLowWattage(lowWattage);
+	public SmartAppliance(int ID, String name, int onWattage, double probOn, double lowRatio, int offWattage){
+		super(ID, name, onWattage, probOn, offWattage);
+		setLowRatio(lowRatio);
+		
+		int temp = calculateLowWattage();
+		setLowWattage(temp);
 	}
 	
 	public void setLowWattage(int w) {
-		lowW = w;
+		this.lowW = w;
+	}
+	
+	public void setLowRatio(double w) 
+	{
+		this.lowRatio = w;
 	}
 	
 	public int getLowWattage() {
-		return lowW;
+		return this.lowW;
+	}
+	
+	public double getLowRatio() 
+	{
+		return this.lowRatio;
 	}
 	
 	public void changeToLow() {
@@ -27,6 +41,11 @@ public class SmartAppliance extends Appliance{
 	
 	public void changeToHigh() {
 		currentWattage = getOnWattage();
+	}
+	
+	private int calculateLowWattage() 
+	{
+		return (int)(this.onWattage * (1 - this.lowRatio));
 	}
 	
 	public void turnOn() {

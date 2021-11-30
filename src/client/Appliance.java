@@ -18,7 +18,7 @@ public class Appliance {
 	}
 	
 	// non-default constructor
-	Appliance(String name, int onWattage, int offWattage, double probOn, int ID)  
+	Appliance(int ID, String name, int onWattage, double probOn, int offWattage)  
 	{
 		setName(name);
 		setOnWattage(onWattage);
@@ -48,8 +48,26 @@ public class Appliance {
 		return this.ID;
 	}
 	
+	
+	/* This function gets the wattage of an appliance, randomly generating if it is on or off. */
 	public int getWattage() {
+		this.generateWattage();
 		return currentWattage;
+	}
+	
+	/* TODO: document this
+	 * */
+	private void generateWattage() 
+	{
+		boolean on = Randomizer.randomOnOff(this.getProbOn());
+		if (on) 
+		{
+			this.setWattage(this.getOnWattage());
+		}
+		else 
+		{
+			this.setWattage(this.getOffWattage());
+		}
 	}
 	
 	// mutators
@@ -63,6 +81,11 @@ public class Appliance {
 		this.onWattage = onWattage;
 	}
 	
+	
+	private void setWattage(int cw) 
+	{
+		this.currentWattage = cw;
+	}
 	
 	
 	public void setProbOn(double probOn) 
