@@ -3,29 +3,51 @@ package client;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 class AppClient{
 	
 	public void readAppFile(String file){ // method to read the comma seperated appliance file.
-		Scanner scan;
+		ArrayList<Room> totalRooms = new ArrayList<Room>(); 
+		int i = 0;
+		
 		try {
-			File myFile=new File(file);
-			scan=new Scanner(myFile);//each line has the format
+			File myFile = new File("app.txt");
+			Scanner scan = new Scanner(myFile);//each line has the format
 			//locationID,name of app,onPower,probability of staying on, smart or not,Smart appliances (if "on") power reduction percent when changed to "low" status(floating point, i.e..33=33%).
-			String str;
-			int locationID;
-			String appName;
-			int onPower;
-			float probOn;
-			String appType;
-			int lowPower;
-			Appliance aAppl;
 			
-			/*Complete the method*/
+			while (scan.hasNext()) {
+				String str = scan.nextLine();
+				String [] appStr = str.split(",");
+				
+				
+				int locationID = Integer.parseInt(appStr[0]);
+				String appName = appStr[1];
+				int onPower = Integer.parseInt(appStr[2]);
+				double probOn = Double.parseDouble(appStr[3]);
+				String isSmart = appStr[4];
+				double lowRatio = Double.parseDouble(appStr[5]);
+				
+				Appliance app;
+				
+				if (isSmart.equals("false")) {
+					app = new Appliance(locationID, appName, onPower, probOn, 0);
+				}
+				else {
+					app = new SmartAppliance(locationID, appName, onPower, probOn, lowRatio, 0);
+				}
+				
+				Room temp = new Room(i);
+
+			}
+			
+			
 			scan.close();
-		}catch(IOException ioe){ 
+			
+		} catch(IOException ioe){ 
 			System.out.println("The file can not be read");
 		}
+		
 	}
 	
 	
