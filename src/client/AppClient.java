@@ -94,10 +94,6 @@ class AppClient{
 			if(option1.equals("q")||option1.equals("Q"))
 				break;
 		}
-		
-
-		for (int i = 0; i < timeSteps; i++) {
-
 
 		readAppFile(appTextFile, applianceList);
 		ArrayList<Room> rooms = new ArrayList<Room>();
