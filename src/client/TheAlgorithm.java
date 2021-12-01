@@ -1,5 +1,7 @@
 package client;
 
+import java.util.ArrayList;
+
 public class TheAlgorithm {
 	
 	public static void run(Room[] rooms, SmartAppliance[] SAs, int timeSteps, int maxWattage) 
@@ -64,18 +66,19 @@ public class TheAlgorithm {
 	
 	/*
 	 * */
-	private static int brownOutOptimalRoom(Room[] rooms, int totalWattage) 
+	private static int brownOutOptimalRoom(ArrayList<Room> rooms, int totalWattage) 
 	{
 		Room optimal;
 		int optimalIndex = 0;
-		for (int i = 0; i < rooms.length; i++) 
+		int numAppliances = rooms.get(0).getNumAppliances();
+		for (int i = 0; i < rooms.size(); i++) 
 		{
 			// first check: does it go under?
 			// second check: 
 			if () // if rooms[i] is closer to totalWattage, but only if it uses less appliances, unless it goes under.
 			{
 				optimalIndex = i;
-				optimal = rooms[i];
+				optimal = rooms.get(i);
 			}
 		}
 		return -1;
