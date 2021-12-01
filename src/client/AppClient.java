@@ -10,11 +10,8 @@ class AppClient{
 	public static void readAppFile(String file){ // method to read the comma seperated appliance file.
 
 		Scanner scan;
-
-		ArrayList<Appliance> applianceList = new ArrayList<Appliance>(); 
-		/*totalRooms.add(new Room(10000001));
-		int i = 1;*/
-		
+		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
+    ArrayList<Appliance> applianceList = new ArrayList<Appliance>(); 
 
 		try {
 			File myFile=new File(file);
@@ -36,11 +33,6 @@ class AppClient{
 				String isSmart = appStr[4];
 				double lowRatio = Double.parseDouble(appStr[5]);
 				
-				/*if (i != (locationID - 10000000)) {
-					i++;
-					totalRooms.add(new Room(i + 10000000));
-				}*/
-				
 				Appliance app;
 				
 				if (isSmart.equals("false")) {
@@ -48,6 +40,7 @@ class AppClient{
 				}
 				else {
 					app = new SmartAppliance(locationID, appName, onPower, probOn, lowRatio);
+					
 				}
 				
 				applianceList.add(app);

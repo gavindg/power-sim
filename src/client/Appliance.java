@@ -49,15 +49,15 @@ public class Appliance {
 	}
 	
 	
-	/* This function gets the wattage of an appliance, randomly generating if it is on or off. */
+	/* This function gets the wattage of an appliance */
 	public int getWattage() {
-		this.generateWattage();
 		return currentWattage;
 	}
 	
 	/* TODO: document this
+	 * generate --> getWattage
 	 * */
-	private void generateWattage() 
+	public void generateWattage() 
 	{
 		boolean on = Randomizer.randomOnOff(this.getProbOn());
 		if (on) 
