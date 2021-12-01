@@ -107,4 +107,12 @@ public class Appliance {
 	public void turnOff() {
 		currentWattage = 0;
 	}
+	
+	public void printInfo() {
+		System.out.println("Room Location: " + this.ID);
+		System.out.println("Appliance Name: " + this.name);
+		System.out.println("Wattage when turned on: " + this.onWattage);
+		System.out.println("Probability of being on: " + this.probOn);
+		
+	}
 }

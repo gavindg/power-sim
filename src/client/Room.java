@@ -2,7 +2,9 @@ package client;
 import java.util.*;
 
 public class Room {
+
 	private ArrayList<Appliance> room = new ArrayList<Appliance>();
+
 	int roomID;
 	boolean isFullyOptimized = false;
 	boolean brownedOut = false;

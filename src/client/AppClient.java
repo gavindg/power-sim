@@ -7,15 +7,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 class AppClient{
 	
-	public void readAppFile(String file){ // method to read the comma seperated appliance file.
+	public static void readAppFile(String file){ // method to read the comma seperated appliance file.
 
 		Scanner scan;
-
-		ArrayList<Room> totalRooms = new ArrayList<Room>(); 
 		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
-		totalRooms.add(new Room(10000001));
-		int i = 1;
-		
+    ArrayList<Appliance> applianceList = new ArrayList<Appliance>(); 
 
 		try {
 			File myFile=new File(file);
@@ -37,11 +33,6 @@ class AppClient{
 				String isSmart = appStr[4];
 				double lowRatio = Double.parseDouble(appStr[5]);
 				
-				if (i != (locationID - 10000000)) {
-					i++;
-					totalRooms.add(new Room(i + 10000000));
-				}
-				
 				Appliance app;
 				
 				if (isSmart.equals("false")) {
@@ -52,7 +43,7 @@ class AppClient{
 					
 				}
 				
-				totalRooms.get(i).addAppliance(app);
+				applianceList.add(app);
 
 			}
 			
@@ -61,12 +52,23 @@ class AppClient{
 			System.out.println("The file can not be read");
 		}
 	}
+	
+	
 	public static void main(String []args){
 		
 		AppClient app = new AppClient();
 		//User interactive part
-		String option1, option2;
+		String option1, appTextFile;
 		Scanner scan = new Scanner(System.in);
+		int maxWattage, timeSteps;
+		System.out.println("Enter total wattage: ");
+		maxWattage = scan.nextInt();
+		System.out.println("Enter number of time steps: ");
+		timeSteps = scan.nextInt();
+		System.out.println("Enter the name of the appliance text file: ");
+		appTextFile = scan.nextLine();
+		
+		
 		while(true){// Application menu to be displayed to the user.
 			System.out.println("Select an option:");
 			System.out.println("Type \"A\" Add an appliance");
@@ -89,6 +91,13 @@ class AppClient{
 				break;
 			if(option1.equals("q")||option1.equals("Q"))
 				break;
+		}
+		
+		for (int i = 0; i < timeSteps; i++) {
+			readAppFile(appTextFile);
+			
+			//report containing appliances/locations affected during time step
+			
 		}
 		
 		
