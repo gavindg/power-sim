@@ -4,24 +4,29 @@ import java.util.ArrayList;
 
 public class TheAlgorithm {
 	
-	public static void run(Room[] rooms, SmartAppliance[] SAs, int timeSteps, int maxWattage) 
+	public static void run(ArrayList<Room> rooms, SmartAppliance[] SAs, int timeSteps, int maxWattage) 
 	{
+		Summary.startFrame();
 		int totalWattage = 0;
 		SmartAppliance[] tempSAs = SAs.clone();
 		// jesus code
 		for (int i = 0; i < timeSteps; i++) 
 		{
 			// first find the total wattage of the whole building
-			for (int j = 0; j < rooms.length; j++) 
+			for (int j = 0; j < rooms.size(); j++) 
 			{
-				totalWattage += rooms[j].randomizeWattage();
+				totalWattage += rooms.get(j).randomizeWattage();
 			}
 			
 			// check if there are any smart devices to turn on low
 			do 
 			{
 				// if we're under the max. watt., no need to continue w/ this time step
-				if (totalWattage <= maxWattage) continue;
+				if (totalWattage <= maxWattage) 
+				{
+					Summary.outputFrameReport();
+					continue;
+				}
 				int temp = lowerHighestLowWattage(SAs);
 				
 				if (temp == -1) break;
@@ -30,7 +35,18 @@ public class TheAlgorithm {
 			while (true);
 			
 			// brown out rooms until we're under
-			
+			do 
+			{
+				int[] out = brownOutOptimalRoom(rooms, totalWattage - maxWattage);
+				totalWattage -= out[0];
+				if (totalWattage <= maxWattage) 
+				{
+					Summary.outputFrameReport();
+					continue;
+				} 
+				
+			}
+			while (totalWattage - maxWattage > 0);
 			
 		}
 	}
@@ -60,6 +76,7 @@ public class TheAlgorithm {
 		else 
 		{	
 			SAs[maxIndex].setStatus(false);
+			Summary.incNumLowered();
 			return max;
 		}
 	}
@@ -89,6 +106,7 @@ public class TheAlgorithm {
 			}
 		}
 		int[] ans = {optimal.getTotalWattage() , optimal.getRoomID()};
+		Summary.incNumRoomsOut();
 		return ans;
 	}
 }
