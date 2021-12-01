@@ -91,15 +91,25 @@ class AppClient{
 				break;
 		}
 		
-		for (int i = 0; i < timeSteps; i++) {
-			readAppFile(appTextFile, applianceList);
-			
-			ArrayList<Room> roomList = new ArrayList<Room>();
-			roomList.add(new Room(10000001));
-			//report containing appliances/locations affected during time step
-			
-		}
+		readAppFile(appTextFile, applianceList);
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		boolean roomFound = false;
 		
+		for (int i = 0; i < applianceList.size(); i++) {
+			Appliance currentAppliance = applianceList.get(i);
+			
+			for (Room r : rooms) {
+				if (currentAppliance.getID() == r.getRoomID()) {
+					r.addAppliance(currentAppliance);
+					roomFound = true;
+				}
+			}
+			
+			if (!roomFound) {
+				rooms.add(new Room(currentAppliance.getID()));
+			}
+			roomFound = false;
+		}
 		
 	}
 }
