@@ -12,6 +12,7 @@ class AppClient{
 		Scanner scan;
 
 		ArrayList<Room> totalRooms = new ArrayList<Room>(); 
+		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
 		totalRooms.add(new Room(10000001));
 		int i = 1;
 		
@@ -48,6 +49,7 @@ class AppClient{
 				}
 				else {
 					app = new SmartAppliance(locationID, appName, onPower, probOn, lowRatio);
+					
 				}
 				
 				totalRooms.get(i).addAppliance(app);

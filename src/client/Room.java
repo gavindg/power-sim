@@ -2,9 +2,11 @@ package client;
 import java.util.*;
 
 public class Room {
-	private Set<Appliance> room = new HashSet<>();
+	private ArrayList<Appliance> room = new ArrayList<Appliance>();
 	int roomID;
 	boolean isFullyOptimized = false;
+	boolean brownedOut = false;
+	int totalWattage;
 	
 	public Room() {
 		roomID = 0;
@@ -19,6 +21,12 @@ public class Room {
 		return roomID;
 	}
 	
+	public int brownOut() 
+	{
+		brownedOut = true;
+		return this.totalWattage;
+	}
+	
 	public int getTotalWattage() {
 
 		Iterator<Appliance> it = room.iterator();
@@ -27,6 +35,21 @@ public class Room {
 		{
 			total += it.next().getWattage();
 		}
+		totalWattage = total;
+		return total;
+	}
+	
+	public int randomizeWattage() 
+	{
+		Iterator<Appliance> it = room.iterator();
+		int total = 0;
+		while (it.hasNext()) 
+		{
+			Appliance ap = it.next();
+			ap.generateWattage();
+			total += ap.getWattage();
+		}
+		totalWattage = total;
 		return total;
 	}
 	
@@ -36,7 +59,7 @@ public class Room {
 		while(it.hasNext()) {
 			Appliance ap = it.next();
 			if(ap instanceof SmartAppliance) {
-				((SmartAppliance) ap).changeToLow();
+				((SmartAppliance) ap).setStatus(false);
 			}
 		}
 	}
