@@ -1,8 +1,8 @@
 /* This is a stub code. You can modify it as you wish. */
 package client;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 class AppClient{
@@ -109,6 +109,26 @@ class AppClient{
 				rooms.add(new Room(currentAppliance.getID()));
 			}
 			roomFound = false;
+		}
+		
+		for (int i = 0; i < timeSteps; i++) {
+			//run simulation
+			
+			printSimDetails();
+		}
+		
+	}
+	
+	public static void printSimDetails() {
+		try {
+			FileWriter fw = new FileWriter("SimDetails.txt");
+			PrintWriter outputFile = new PrintWriter(fw);
+			outputFile.println("Appliances that were affected during the simulation: ");
+			outputFile.println("Locations that were affected during the simulation: ");
+			outputFile.close();
+			
+		}  catch (Exception E) {
+			System.out.println("ERROR");
 		}
 		
 	}
