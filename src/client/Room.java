@@ -24,7 +24,7 @@ public class Room {
 	public int brownOut() 
 	{
 		brownedOut = true;
-		return this.totalWattage;
+		return this.getTotalWattage();
 	}
 	
 	public int getTotalWattage() {
@@ -46,6 +46,12 @@ public class Room {
 		while (it.hasNext()) 
 		{
 			Appliance ap = it.next();
+			
+			// if `ap` is a smart device, turn it on high
+			if (ap instanceof SmartAppliance) 
+			{
+				((SmartAppliance) ap).setStatus(true);
+			}
 			ap.generateWattage();
 			total += ap.getWattage();
 		}
@@ -74,8 +80,11 @@ public class Room {
 			total += it.next().getOnWattage();
 		}
 		return total;
-
 	}
+	
+	public int getNumAppliances() {
+        return room.size();
+    }
 	
 	public void addAppliance(Appliance app) {
 		room.add(app);
