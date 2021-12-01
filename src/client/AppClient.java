@@ -10,6 +10,7 @@ class AppClient{
 	public static void readAppFile(String file, ArrayList<Appliance> applianceList){ // method to read the comma seperated appliance file.
 
 		Scanner scan;
+		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
 
 		try {
 			File myFile=new File(file);
