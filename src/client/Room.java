@@ -2,9 +2,13 @@ package client;
 import java.util.*;
 
 public class Room {
-	private ArrayList<Appliance> room = new ArrayList<>();
+
+	private ArrayList<Appliance> room = new ArrayList<Appliance>();
+
 	int roomID;
 	boolean isFullyOptimized = false;
+	boolean brownedOut = false;
+	int totalWattage;
 	
 	public Room() {
 		roomID = 0;
@@ -19,6 +23,12 @@ public class Room {
 		return roomID;
 	}
 	
+	public int brownOut() 
+	{
+		brownedOut = true;
+		return this.getTotalWattage();
+	}
+	
 	public int getTotalWattage() {
 
 		Iterator<Appliance> it = room.iterator();
@@ -27,6 +37,27 @@ public class Room {
 		{
 			total += it.next().getWattage();
 		}
+		totalWattage = total;
+		return total;
+	}
+	
+	public int randomizeWattage() 
+	{
+		Iterator<Appliance> it = room.iterator();
+		int total = 0;
+		while (it.hasNext()) 
+		{
+			Appliance ap = it.next();
+			
+			// if `ap` is a smart device, turn it on high
+			if (ap instanceof SmartAppliance) 
+			{
+				((SmartAppliance) ap).setStatus(true);
+			}
+			ap.generateWattage();
+			total += ap.getWattage();
+		}
+		totalWattage = total;
 		return total;
 	}
 	
@@ -36,7 +67,7 @@ public class Room {
 		while(it.hasNext()) {
 			Appliance ap = it.next();
 			if(ap instanceof SmartAppliance) {
-				((SmartAppliance) ap).changeToLow();
+				((SmartAppliance) ap).setStatus(false);
 			}
 		}
 	}
@@ -51,8 +82,11 @@ public class Room {
 			total += it.next().getOnWattage();
 		}
 		return total;
-
 	}
+	
+	public int getNumAppliances() {
+        return room.size();
+    }
 	
 	public void addAppliance(Appliance app) {
 		room.add(app);

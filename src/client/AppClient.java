@@ -1,8 +1,8 @@
 /* This is a stub code. You can modify it as you wish. */
 package client;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 class AppClient{
@@ -11,8 +11,8 @@ class AppClient{
 
 		Scanner scan;
 
-		/*totalRooms.add(new Room(10000001));
-		int i = 1;*/
+		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
+
 		try {
 			File myFile=new File(file);
 			scan=new Scanner(myFile);//each line has the format
@@ -33,13 +33,7 @@ class AppClient{
 				String isSmart = appStr[4];
 				double lowRatio = Double.parseDouble(appStr[5]);
 				
-				/*if (i != (locationID - 10000000)) {
-					i++;
-					totalRooms.add(new Room(i + 10000000));
-				}*/
-				
 				Appliance app;
-				
 				if (isSmart.equals("false")) {
 					app = new Appliance(locationID, appName, onPower, probOn);
 				}
@@ -60,7 +54,8 @@ class AppClient{
 	
 	public static void main(String []args){
 		
-		ArrayList<Appliance> applianceList = new ArrayList<Appliance>(); 
+		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
+
 		
 		AppClient app = new AppClient();
 		//User interactive part
@@ -100,13 +95,50 @@ class AppClient{
 				break;
 		}
 		
+
 		for (int i = 0; i < timeSteps; i++) {
-			readAppFile(appTextFile, applianceList);
+
+
+		readAppFile(appTextFile, applianceList);
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		boolean roomFound = false;
+		
+		for (int i = 0; i < applianceList.size(); i++) {
+			Appliance currentAppliance = applianceList.get(i);
+
 			
-			//report containing appliances/locations affected during time step
+			for (Room r : rooms) {
+				if (currentAppliance.getID() == r.getRoomID()) {
+					r.addAppliance(currentAppliance);
+					roomFound = true;
+				}
+			}
 			
+			if (!roomFound) {
+				rooms.add(new Room(currentAppliance.getID()));
+			}
+			roomFound = false;
 		}
 		
+		for (int i = 0; i < timeSteps; i++) {
+			//run simulation
+			
+			printSimDetails();
+		}
+		
+	}
+	
+	public static void printSimDetails() {
+		try {
+			FileWriter fw = new FileWriter("SimDetails.txt");
+			PrintWriter outputFile = new PrintWriter(fw);
+			outputFile.println("Appliances that were affected during the simulation: ");
+			outputFile.println("Locations that were affected during the simulation: ");
+			outputFile.close();
+			
+		}  catch (Exception E) {
+			System.out.println("ERROR");
+		}
 		
 	}
 }
