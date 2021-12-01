@@ -55,7 +55,7 @@ public class SmartAppliance extends Appliance{
 	public void printInfo() {
 		super.printInfo();
 		System.out.println("Low Ratio: " + this.lowRatio);
-		System.out.println("Low wattage: " + this.getLowWattage());
+		System.out.println("Low Wattage: " + this.getLowWattage());
 		
 	}
 	
