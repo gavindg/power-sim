@@ -4,6 +4,8 @@ public class SmartAppliance extends Appliance{
 	
 	private int lowW;
 	private double lowRatio;
+	private boolean high;
+	private boolean on;
 	
 	public SmartAppliance() {
 		super();
@@ -12,9 +14,26 @@ public class SmartAppliance extends Appliance{
 	public SmartAppliance(int ID, String name, int onWattage, double probOn, double lowRatio){
 		super(ID, name, onWattage, probOn);
 		setLowRatio(lowRatio);
+		setStatus(true);
 		
 		int temp = calculateLowWattage();
 		setLowWattage(temp);
+	}
+	
+	@Override
+	public int getWattage() 
+	{
+		if (!on) 
+		{
+			return 0;
+		}
+		else if (high) 
+		{
+			return this.getOnWattage();
+		}
+		else {
+			return this.getLowWattage();
+		}
 	}
 	
 	public void setLowWattage(int w) {
@@ -35,12 +54,26 @@ public class SmartAppliance extends Appliance{
 		return this.lowRatio;
 	}
 	
-	public void changeToLow() {
-		currentWattage = getLowWattage();
+	// returns whether the SA is on high.
+	public boolean getStatus() 
+	{
+		return high;
 	}
 	
-	public void changeToHigh() {
-		currentWattage = getOnWattage();
+	public void setStatus(boolean high) 
+	{
+		this.high = high;
+	}
+	
+	// returns whether the SA is on or off
+	public boolean getOnOff() 
+	{
+		return on;
+	}
+	
+	public void setOnOff(boolean onOff) 
+	{
+		this.on = onOff;
 	}
 	
 	private int calculateLowWattage() 
