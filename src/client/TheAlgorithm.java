@@ -107,6 +107,9 @@ public class TheAlgorithm {
 		}
 		int[] ans = {optimal.getTotalWattage() , optimal.getRoomID()};
 		Summary.incNumRoomsOut();
+		optimal.incNumTimesBrownedOut();
+		Summary.compareMostEffected(optimal);
+		
 		return ans;
 	}
 }
