@@ -14,7 +14,7 @@ public class TheAlgorithm {
 			// first find the total wattage of the whole building
 			for (int j = 0; j < rooms.length; j++) 
 			{
-				totalWattage += rooms[j].getTotalWattage();
+				totalWattage += rooms[j].randomizeWattage();
 			}
 			
 			// check if there are any smart devices to turn on low
@@ -65,22 +65,30 @@ public class TheAlgorithm {
 	}
 	
 	/*
+	 * searches for most optimal room to brown out. optimal being the room that brings the TotalWattage under the given
+	 * wattage threshold. this is compared to the difference between the two.
+	 * 
+	 * returns an int[] which int[0] is the total wattage of the room browned out and int[1] is the room browned out's id
 	 * */
-	private static int brownOutOptimalRoom(ArrayList<Room> rooms, int totalWattage) 
+	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference) 
 	{
-		Room optimal;
+		Room optimal = rooms.get(0);
 		int optimalIndex = 0;
 		int numAppliances = rooms.get(0).getNumAppliances();
 		for (int i = 0; i < rooms.size(); i++) 
 		{
 			// first check: does it go under?
+			if(rooms.get(i).getTotalWattage()>difference) {
 			// second check: 
-			if () // if rooms[i] is closer to totalWattage, but only if it uses less appliances, unless it goes under.
-			{
-				optimalIndex = i;
-				optimal = rooms.get(i);
+				if (rooms.get(i).getNumAppliances()>numAppliances) // if rooms[i] is closer to totalWattage, but only if it uses less appliances, unless it goes under.
+				{
+					optimalIndex = i;
+					optimal = rooms.get(i);
+					numAppliances = optimal.getNumAppliances();
+				}
 			}
 		}
-		return -1;
+		int[] ans = {optimal.getTotalWattage() , optimal.getRoomID()};
+		return ans;
 	}
 }
