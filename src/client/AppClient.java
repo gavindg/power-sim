@@ -10,6 +10,7 @@ class AppClient{
 	public static void readAppFile(String file, ArrayList<Appliance> applianceList){ // method to read the comma seperated appliance file.
 
 		Scanner scan;
+
 		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
 
 		try {
@@ -54,6 +55,7 @@ class AppClient{
 	public static void main(String []args){
 		
 		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
+
 		
 		AppClient app = new AppClient();
 		//User interactive part
@@ -69,6 +71,7 @@ class AppClient{
 		
 		
 		while(true){// Application menu to be displayed to the user.
+			System.out.println("------------------------");
 			System.out.println("Select an option:");
 			System.out.println("Type \"A\" Add an appliance");
 			System.out.println("Type \"D\" Delete an appliance");	
@@ -79,25 +82,30 @@ class AppClient{
 			option1=scan.nextLine();
 			/* Complete the skeleton code below */	
 			if(option1.equals("a")||option1.equals("A"))
-				Menus.addApp();
+				Menus.addApp(applianceList);
 			if(option1.equals("d")||option1.equals("D"))
-				Menus.removeApp();
+				Menus.removeApp(applianceList);
 			if(option1.equals("l")||option1.equals("L"))
-				Menus.listApp();
+				Menus.listApp(applianceList);
 			if(option1.equals("f")||option1.equals("F"))
-				Menus.readApp();
+				Menus.readApp(applianceList);
 			if(option1.equals("s")||option1.equals("S"))
 				break;
 			if(option1.equals("q")||option1.equals("Q"))
 				break;
 		}
 		
+
+		for (int i = 0; i < timeSteps; i++) {
+
+
 		readAppFile(appTextFile, applianceList);
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		boolean roomFound = false;
 		
 		for (int i = 0; i < applianceList.size(); i++) {
 			Appliance currentAppliance = applianceList.get(i);
+
 			
 			for (Room r : rooms) {
 				if (currentAppliance.getID() == r.getRoomID()) {
