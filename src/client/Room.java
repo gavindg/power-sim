@@ -2,7 +2,7 @@ package client;
 import java.util.*;
 
 public class Room {
-	private Set<Appliance> room = new HashSet<>();
+	private ArrayList<Appliance> room = new ArrayList<>();
 	int roomID;
 	boolean isFullyOptimized = false;
 	
