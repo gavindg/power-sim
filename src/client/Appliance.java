@@ -110,6 +110,5 @@ public class Appliance {
 	
 	public void printInfo() {
 		System.out.print(this.ID +" "+ this.name +" "+ this.onWattage +" "+ this.probOn);
-		
 	}
 }

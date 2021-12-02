@@ -1,13 +1,14 @@
 package client;
 
+
 import java.io.*;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 
 public class Menus {
-
     static Scanner scnr = new Scanner(System.in);
     
     public static void addApp(ArrayList<Appliance> applianceList) {
@@ -18,6 +19,7 @@ public class Menus {
         boolean isSmart;
         boolean input;
         System.out.println("Enter Name:");
+      
             tempName = scnr.nextLine();
         while(true) {
         	try {
@@ -39,6 +41,7 @@ public class Menus {
         		tempProbOn = scnr.nextDouble();    
         		if (tempProbOn > 0 && tempProbOn <= 1)
         			break;
+
         		throw new ArithmeticException("Input is not greater than 0 and less than/equal to 1."); 
         	} catch(InputMismatchException E) {
         		System.out.println("Input is not greater than 0 and less than/equal to 1.");
@@ -88,6 +91,7 @@ public class Menus {
             			scnr.next();
             		} catch (ArithmeticException E) {
             			System.out.println("Input is not greater than 0 and less than/equal to 1.");
+
             		}
             	}
             }

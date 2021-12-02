@@ -11,6 +11,8 @@ class AppClient{
 
 		Scanner scan;
 
+		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
+
 		try {
 			File myFile=new File(file);
 			scan=new Scanner(myFile);//each line has the format
@@ -53,6 +55,7 @@ class AppClient{
 	public static void main(String []args){
 		
 		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
+
 		
 		AppClient app = new AppClient();
 		//User interactive part
@@ -80,6 +83,7 @@ class AppClient{
 		
 		
 		while(true){// Application menu to be displayed to the user.
+			System.out.println("------------------------");
 			System.out.println("Select an option:");
 			System.out.println("Type \"A\" Add an appliance");
 			System.out.println("Type \"D\" Delete an appliance");	
@@ -102,13 +106,14 @@ class AppClient{
 			if(option1.equals("q")||option1.equals("Q"))
 				break;
 		}
-		
+
 		readAppFile(appTextFile, applianceList);
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		boolean roomFound = false;
 		
 		for (int i = 0; i < applianceList.size(); i++) {
 			Appliance currentAppliance = applianceList.get(i);
+
 			
 			for (Room r : rooms) {
 				if (currentAppliance.getID() == r.getRoomID()) {
