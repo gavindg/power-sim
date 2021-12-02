@@ -9,6 +9,7 @@ public class Room {
 	boolean isFullyOptimized = false;
 	boolean brownedOut = false;
 	int totalWattage;
+	int numTimesBrownedOut;
 	
 	public Room() {
 		roomID = 0;
@@ -25,6 +26,15 @@ public class Room {
 
 	public int getRoomID() {
 		return roomID;
+	}
+	
+	public int getNumTimesBrownedOut() {
+		return this.numTimesBrownedOut;
+	}
+	
+	public void incNumTimesBrownedOut() 
+	{
+		this.numTimesBrownedOut++;
 	}
 	
 	public int brownOut() 
