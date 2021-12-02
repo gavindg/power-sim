@@ -107,7 +107,15 @@ public class Room {
 		room.add(app);
 	}
 	
-	
-	
+	public int getInfo() {
+		return this.roomID;
+	}
+	public String getApp() {
+		String temp = "";
+		for(int i = 0; i<room.size();i++) {
+			temp += room.get(i).getInfo()+" was turned off.\n";
+		}
+		return temp;
+	}
 }
 

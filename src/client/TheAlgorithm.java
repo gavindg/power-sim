@@ -13,6 +13,7 @@ public class TheAlgorithm {
 		// jesus code
 		for (int i = 0; i < timeSteps; i++) 
 		{
+			String report = "",report2 = "";
 			int totalWattage = 0;
 			Summary.startFrame();
 			boolean flag = false;
@@ -36,7 +37,7 @@ public class TheAlgorithm {
 					flag = true;
 					break;
 				}
-				int temp = lowerHighestLowWattage(SAs);
+				int temp = lowerHighestLowWattage(SAs, report);
 				
 				if (temp == -1) break;
 //				System.out.printf("[DEBUG]: reducing totalWattage by %d for a total Wattage of %d\n", temp, totalWattage);
@@ -44,12 +45,15 @@ public class TheAlgorithm {
 			}
 			while (true);
 			
-			if (flag == true) continue;
+			if (flag == true) {
+				AppClient.printSimDetails(i, report, report2);
+				continue;
+			}
 			
 			// brown out rooms until we're under
 			do 
 			{
-				int[] out = brownOutOptimalRoom(rooms, totalWattage - maxWattage);
+				int[] out = brownOutOptimalRoom(rooms, totalWattage - maxWattage, report2, report);
 				if (out[0] == -1) 
 				{
 					System.out.println("Error: No more rooms to brown out, further optimization impossible");
@@ -68,7 +72,7 @@ public class TheAlgorithm {
 					{
 						r.brownOut(false);
 					}
-					
+					AppClient.printSimDetails(i, report, report2);
 					break;
 				} 
 				
@@ -79,7 +83,7 @@ public class TheAlgorithm {
 			{
 				r.brownOut(false);
 			}
-			
+			AppClient.printSimDetails(i, report, report2);
 		}
 	}
 	
@@ -88,7 +92,7 @@ public class TheAlgorithm {
 	 * - positive int: lowered the max SA and returned
 	 * - 1: no remaining SAs to lower
 	 * */
-	private static int lowerHighestLowWattage(ArrayList<SmartAppliance> SAs) 
+	private static int lowerHighestLowWattage(ArrayList<SmartAppliance> SAs, String report) 
 	{
 		int max = -1;
 		int maxIndex = -1;
@@ -111,6 +115,7 @@ public class TheAlgorithm {
 		{	
 			int ret = SAs.get(maxIndex).getOnWattage() - max;
 			SAs.get(maxIndex).setStatus(false);
+			report += SAs.get(maxIndex).getInfo() +"was lowered\n";
 			Summary.incNumLowered();
 			return ret;
 		}
@@ -124,7 +129,7 @@ public class TheAlgorithm {
 	 * 
 	 * returns { -1, -1 } when no possible rooms remain to be browned out.
 	 * */
-	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference) 
+	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference, String report2, String report) 
 	{
 		Room optimal = null;
 		for (int i = 0; i < rooms.size(); i++) 
@@ -184,6 +189,8 @@ public class TheAlgorithm {
 		Summary.incNumRoomsOut();
 		optimal.incNumTimesBrownedOut();
 		optimal.brownOut(true);
+		report2 += optimal.getInfo()+" was browned out\n";
+		report += optimal.getApp();
 		Summary.compareMostEffected(optimal);
 		
 		return ans;

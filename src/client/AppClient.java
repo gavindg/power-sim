@@ -110,12 +110,16 @@ class AppClient{
 		
 	}
 	
-	public static void printSimDetails() {
+	public static void printSimDetails(int x, String report, String report2) {
+
 		try {
-			FileWriter fw = new FileWriter("SimDetails.txt");
+			System.out.println(report+report2);
+			FileWriter fw = new FileWriter("SimDetails"+(x+1)+".txt");
 			PrintWriter outputFile = new PrintWriter(fw);
 			outputFile.println("Appliances that were affected during the simulation: ");
+			outputFile.println(report);
 			outputFile.println("Locations that were affected during the simulation: ");
+			outputFile.println(report2);
 			outputFile.close();
 			
 		}  catch (Exception E) {
