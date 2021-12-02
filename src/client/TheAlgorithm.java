@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 public class TheAlgorithm {
 	
-	public static void run(ArrayList<Room> rooms, SmartAppliance[] SAs, int timeSteps, int maxWattage) 
+	public static void run(ArrayList<Room> rooms, ArrayList<SmartAppliance> SAs, int timeSteps, int maxWattage) 
 	{
-		Summary.startFrame();
+		
 		int totalWattage = 0;
-		SmartAppliance[] tempSAs = SAs.clone();
+		ArrayList<SmartAppliance> tempSAs = new ArrayList<SmartAppliance>();
+		tempSAs = (ArrayList)SAs.clone();
+		
 		// jesus code
 		for (int i = 0; i < timeSteps; i++) 
 		{
+			Summary.startFrame();
+			boolean flag = false;
 			// first find the total wattage of the whole building
 			for (int j = 0; j < rooms.size(); j++) 
 			{
@@ -24,15 +28,21 @@ public class TheAlgorithm {
 				// if we're under the max. watt., no need to continue w/ this time step
 				if (totalWattage <= maxWattage) 
 				{
+					
 					Summary.outputFrameReport();
-					continue;
+					System.out.println("final wattage for this frame: " + totalWattage + "\n");
+					flag = true;
+					break;
 				}
 				int temp = lowerHighestLowWattage(SAs);
 				
 				if (temp == -1) break;
+				System.out.printf("[DEBUG]: reducing totalWattage by %d for a total Wattage of %d\n", temp, totalWattage);
 				totalWattage -= temp;
 			}
 			while (true);
+			
+			if (flag == true) continue;
 			
 			// brown out rooms until we're under
 			do 
@@ -43,6 +53,7 @@ public class TheAlgorithm {
 					System.out.println("Error: No more rooms to brown out, further optimization impossible");
 					break;
 				}
+				System.out.printf("Browned out room %d\n", out[1]);
 				
 				totalWattage -= out[0];
 				if (totalWattage <= maxWattage) 
@@ -62,28 +73,31 @@ public class TheAlgorithm {
 	 * - positive int: lowered the max SA and returned
 	 * - 1: no remaining SAs to lower
 	 * */
-	private static int lowerHighestLowWattage(SmartAppliance[] SAs) 
+	private static int lowerHighestLowWattage(ArrayList<SmartAppliance> SAs) 
 	{
 		int max = -1;
 		int maxIndex = -1;
-		for (int i = 0; i < SAs.length; i++) 
+		for (int i = 0; i < SAs.size(); i++) 
 		{
-			if (SAs[i].getStatus() == true && SAs[i].getOnOff() && SAs[i].getLowWattage() > max) 
+			// TODO: remove this: System.out.printf("[DEBUG]: testing sa. getStatus = %b, getOnOff = %b, getLowWattage = %d", SAs.get(i).getStatus(), SAs.get(i).getOnOff(), SAs.get(i).getLowWattage());
+			if (SAs.get(i).getStatus() == true && SAs.get(i).getOnOff() && SAs.get(i).getLowWattage() > max) 
 			{
-				max = SAs[i].getLowWattage();
+				max = SAs.get(i).getLowWattage();
 				maxIndex = i;
 			}
 		}
 		
+		//System.out.printf("[DEBUG]: maxIndex = %d\n", maxIndex);
 		if (maxIndex == -1) 
 		{
-			return 1;
+			return -1;
 		}
 		else 
 		{	
-			SAs[maxIndex].setStatus(false);
+			int ret = SAs.get(maxIndex).getOnWattage() - max;
+			SAs.get(maxIndex).setStatus(false);
 			Summary.incNumLowered();
-			return max;
+			return ret;
 		}
 	}
 	

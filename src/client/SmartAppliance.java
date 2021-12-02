@@ -15,6 +15,7 @@ public class SmartAppliance extends Appliance{
 		super(ID, name, onWattage, probOn);
 		setLowRatio(lowRatio);
 		setStatus(true);
+		setOnOff(true);
 		
 		int temp = calculateLowWattage();
 		setLowWattage(temp);
@@ -33,6 +34,22 @@ public class SmartAppliance extends Appliance{
 		}
 		else {
 			return this.getLowWattage();
+		}
+	}
+	
+	@Override
+	public void generateWattage() 
+	{
+		boolean onOff = Randomizer.randomOnOff(this.getProbOn());
+		if (onOff) 
+		{
+			this.setWattage(this.getOnWattage());
+			this.on = true;
+		}
+		else 
+		{
+			this.setWattage(0);
+			this.on = false;
 		}
 	}
 	
