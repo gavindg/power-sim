@@ -109,10 +109,7 @@ public class Appliance {
 	}
 	
 	public void printInfo() {
-		System.out.println("Room Location: " + this.ID);
-		System.out.println("Appliance Name: " + this.name);
-		System.out.println("Wattage when turned on: " + this.onWattage);
-		System.out.println("Probability of being on: " + this.probOn);
+		System.out.print(this.ID +" "+ this.name +" "+ this.onWattage +" "+ this.probOn);
 		
 	}
 }
