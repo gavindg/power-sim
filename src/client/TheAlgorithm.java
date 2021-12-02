@@ -38,6 +38,12 @@ public class TheAlgorithm {
 			do 
 			{
 				int[] out = brownOutOptimalRoom(rooms, totalWattage - maxWattage);
+				if (out[0] == -1) 
+				{
+					System.out.println("Error: No more rooms to brown out, further optimization impossible");
+					break;
+				}
+				
 				totalWattage -= out[0];
 				if (totalWattage <= maxWattage) 
 				{
@@ -86,11 +92,29 @@ public class TheAlgorithm {
 	 * wattage threshold. this is compared to the difference between the two.
 	 * 
 	 * returns an int[] which int[0] is the total wattage of the room browned out and int[1] is the room browned out's id
+	 * 
+	 * returns { -1, -1 } when no possible rooms remain to be browned out.
 	 * */
 	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference) 
 	{
-		Room optimal = rooms.get(0);
-		int optimalIndex = 0;
+		Room optimal = null;
+		int optimalIndex = -1;
+		for (int i = 0; i < rooms.size(); i++) 
+		{
+			if (!rooms.get(i).brownedOut) 
+			{
+				optimal = rooms.get(i);
+				optimalIndex = i;
+				break;
+			}
+		}
+		
+		if (optimalIndex == -1) 
+		{
+			return new int[] {-1, -1};
+		}
+		
+		
 		int numAppliances = rooms.get(0).getNumAppliances();
 		for (int i = 0; i < rooms.size(); i++) 
 		{
