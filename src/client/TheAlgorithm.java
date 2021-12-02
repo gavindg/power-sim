@@ -25,8 +25,6 @@ public class TheAlgorithm {
 				totalWattage += rooms.get(j).randomizeWattage();
 			}
 			
-			System.out.println("initial watt: " + totalWattage);
-			
 			// check if there are any smart devices to turn on low
 			do 
 			{
@@ -42,7 +40,6 @@ public class TheAlgorithm {
 				int temp = lowerHighestLowWattage(SAs);
 				
 				if (temp == -1) break;
-//				System.out.printf("[DEBUG]: reducing totalWattage by %d for a total Wattage of %d\n", temp, totalWattage);
 				totalWattage -= temp;
 			}
 			while (true);
@@ -63,12 +60,10 @@ public class TheAlgorithm {
 				}
 				
 				totalWattage -= out[0];
-				System.out.printf("Browned out room %d, reducing total wattage to %d\n", out[1], totalWattage);
 				
 				if (totalWattage <= maxWattage) 
 				{
 					Summary.outputFrameReport();
-					System.out.println("final wattage for this frame: " + totalWattage + "\n");
 					
 					for (Room r : rooms) 
 					{
@@ -100,7 +95,6 @@ public class TheAlgorithm {
 		int maxIndex = -1;
 		for (int i = 0; i < SAs.size(); i++) 
 		{
-			// TODO: remove this: System.out.printf("[DEBUG]: testing sa. getStatus = %b, getOnOff = %b, getLowWattage = %d", SAs.get(i).getStatus(), SAs.get(i).getOnOff(), SAs.get(i).getLowWattage());
 			if (SAs.get(i).getStatus() == true && SAs.get(i).getOnOff() && SAs.get(i).getLowWattage() > max) 
 			{
 				max = SAs.get(i).getLowWattage();
@@ -108,7 +102,6 @@ public class TheAlgorithm {
 			}
 		}
 		
-		//System.out.printf("[DEBUG]: maxIndex = %d\n", maxIndex);
 		if (maxIndex == -1) 
 		{
 			return -1;

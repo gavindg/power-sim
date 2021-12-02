@@ -72,7 +72,6 @@ public class Room {
 			total += ap.getWattage();
 		}
 		totalWattage = total;
-		System.out.printf("total wattage for room %d : %d\n", this.roomID, totalWattage);
 		return total;
 	}
 	

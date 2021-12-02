@@ -119,9 +119,6 @@ class AppClient{
 			if(option1.equals("q")||option1.equals("Q"))
 				break;
 		}
-
-		
-		
 	}
 	
 	public static void printSimDetails(int x, String report, String report2) {
