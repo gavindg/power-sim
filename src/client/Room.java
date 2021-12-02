@@ -18,6 +18,10 @@ public class Room {
 		roomID = ID;
 	}
 	
+	public ArrayList<Appliance> getRoom() {
+		return this.room;
+	}
+	
 
 	public int getRoomID() {
 		return roomID;
@@ -91,6 +95,8 @@ public class Room {
 	public void addAppliance(Appliance app) {
 		room.add(app);
 	}
+	
+	
 	
 }
 
