@@ -106,5 +106,7 @@ public class SmartAppliance extends Appliance{
 		 super.printInfo();
 	   System.out.print(" "+this.lowRatio +" "+ this.getLowWattage());
 	}
-	
+	public String getInfo() {
+	   return super.getInfo()+" "+this.lowRatio +" "+ this.getLowWattage();
+	}
 }

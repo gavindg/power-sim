@@ -3,6 +3,7 @@ package client;
 import java.util.ArrayList;
 
 public class TheAlgorithm {
+	public static String report = "",report2 = "";
 	
 	public static void run(ArrayList<Room> rooms, ArrayList<SmartAppliance> SAs, int timeSteps, int maxWattage) 
 	{
@@ -13,6 +14,8 @@ public class TheAlgorithm {
 		// jesus code
 		for (int i = 0; i < timeSteps; i++) 
 		{
+			report = "";
+			report2 = "";
 			int totalWattage = 0;
 			Summary.startFrame();
 			boolean flag = false;
@@ -44,7 +47,10 @@ public class TheAlgorithm {
 			}
 			while (true);
 			
-			if (flag == true) continue;
+			if (flag == true) {
+				AppClient.printSimDetails(i, report, report2);
+				continue;
+			}
 			
 			// brown out rooms until we're under
 			do 
@@ -68,7 +74,7 @@ public class TheAlgorithm {
 					{
 						r.brownOut(false);
 					}
-					
+					AppClient.printSimDetails(i, report, report2);
 					break;
 				} 
 				
@@ -79,7 +85,7 @@ public class TheAlgorithm {
 			{
 				r.brownOut(false);
 			}
-			
+			AppClient.printSimDetails(i, report, report2);
 		}
 	}
 	
@@ -111,6 +117,7 @@ public class TheAlgorithm {
 		{	
 			int ret = SAs.get(maxIndex).getOnWattage() - max;
 			SAs.get(maxIndex).setStatus(false);
+			report += SAs.get(maxIndex).getInfo() +" was lowered\n";
 			Summary.incNumLowered();
 			return ret;
 		}
@@ -184,6 +191,8 @@ public class TheAlgorithm {
 		Summary.incNumRoomsOut();
 		optimal.incNumTimesBrownedOut();
 		optimal.brownOut(true);
+		report2 += optimal.getInfo()+" was browned out\n";
+		report += optimal.getApp();
 		Summary.compareMostEffected(optimal);
 		
 		return ans;
