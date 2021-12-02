@@ -7,13 +7,13 @@ public class TheAlgorithm {
 	public static void run(ArrayList<Room> rooms, ArrayList<SmartAppliance> SAs, int timeSteps, int maxWattage) 
 	{
 		
-		int totalWattage = 0;
 		ArrayList<SmartAppliance> tempSAs = new ArrayList<SmartAppliance>();
 		tempSAs = (ArrayList)SAs.clone();
 		
 		// jesus code
 		for (int i = 0; i < timeSteps; i++) 
 		{
+			int totalWattage = 0;
 			Summary.startFrame();
 			boolean flag = false;
 			// first find the total wattage of the whole building
@@ -21,6 +21,8 @@ public class TheAlgorithm {
 			{
 				totalWattage += rooms.get(j).randomizeWattage();
 			}
+			
+			System.out.println("initial watt: " + totalWattage);
 			
 			// check if there are any smart devices to turn on low
 			do 
@@ -37,7 +39,7 @@ public class TheAlgorithm {
 				int temp = lowerHighestLowWattage(SAs);
 				
 				if (temp == -1) break;
-				System.out.printf("[DEBUG]: reducing totalWattage by %d for a total Wattage of %d\n", temp, totalWattage);
+//				System.out.printf("[DEBUG]: reducing totalWattage by %d for a total Wattage of %d\n", temp, totalWattage);
 				totalWattage -= temp;
 			}
 			while (true);
@@ -53,17 +55,30 @@ public class TheAlgorithm {
 					System.out.println("Error: No more rooms to brown out, further optimization impossible");
 					break;
 				}
-				System.out.printf("Browned out room %d\n", out[1]);
 				
 				totalWattage -= out[0];
+				System.out.printf("Browned out room %d, reducing total wattage to %d\n", out[1], totalWattage);
+				
 				if (totalWattage <= maxWattage) 
 				{
 					Summary.outputFrameReport();
-					continue;
+					System.out.println("final wattage for this frame: " + totalWattage + "\n");
+					
+					for (Room r : rooms) 
+					{
+						r.brownOut(false);
+					}
+					
+					break;
 				} 
 				
 			}
 			while (totalWattage - maxWattage > 0);
+			
+			for (Room r : rooms) 
+			{
+				r.brownOut(false);
+			}
 			
 		}
 	}
@@ -112,18 +127,16 @@ public class TheAlgorithm {
 	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference) 
 	{
 		Room optimal = null;
-		int optimalIndex = -1;
 		for (int i = 0; i < rooms.size(); i++) 
 		{
 			if (!rooms.get(i).brownedOut) 
 			{
 				optimal = rooms.get(i);
-				optimalIndex = i;
 				break;
 			}
 		}
 		
-		if (optimalIndex == -1) 
+		if (optimal == null) 
 		{
 			return new int[] {-1, -1};
 		}
@@ -132,20 +145,45 @@ public class TheAlgorithm {
 		int numAppliances = rooms.get(0).getNumAppliances();
 		for (int i = 0; i < rooms.size(); i++) 
 		{
-			// first check: does it go under?
-			if(rooms.get(i).getTotalWattage()>difference) {
-			// second check: 
-				if (rooms.get(i).getNumAppliances()>numAppliances) // if rooms[i] is closer to totalWattage, but only if it uses less appliances, unless it goes under.
+			// if rooms.get(i) is already browned out; continue;
+			if (rooms.get(i).brownedOut) continue;
+			
+			// if current optimal goes under but rooms.get(i) doesnt: continue
+			if (optimal.getTotalWattage() > difference && rooms.get(i).getTotalWattage() < difference) continue;
+	
+			// if rooms.get(0) does go under but current optimal doesnt; replace current w rooms.get(i); continue;
+			if (rooms.get(i).getTotalWattage() > difference && optimal.getTotalWattage() < difference) 
+			{
+				optimal = rooms.get(i);
+				continue;
+			}
+			
+			// if both go under
+			if (optimal.getTotalWattage() > difference && rooms.get(i).getTotalWattage() > difference) 
+			{
+				// check which has less appliances
+				if (optimal.getNumAppliances() > rooms.get(i).getNumAppliances()) 
 				{
-					optimalIndex = i;
 					optimal = rooms.get(i);
-					numAppliances = optimal.getNumAppliances();
+					continue;
+				}
+			}
+				
+			
+			// if neither go under
+			if (optimal.getTotalWattage() < difference && rooms.get(i).getTotalWattage() < difference) 
+			{
+				// check which gets closer to going under
+				if (optimal.getTotalWattage() < rooms.get(i).getTotalWattage()) 
+				{
+					optimal = rooms.get(i);
 				}
 			}
 		}
 		int[] ans = {optimal.getTotalWattage() , optimal.getRoomID()};
 		Summary.incNumRoomsOut();
 		optimal.incNumTimesBrownedOut();
+		optimal.brownOut(true);
 		Summary.compareMostEffected(optimal);
 		
 		return ans;

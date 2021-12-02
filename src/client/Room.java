@@ -37,9 +37,9 @@ public class Room {
 		this.numTimesBrownedOut++;
 	}
 	
-	public int brownOut() 
+	public int brownOut(boolean status) 
 	{
-		brownedOut = true;
+		brownedOut = status;
 		return this.getTotalWattage();
 	}
 	
@@ -72,7 +72,7 @@ public class Room {
 			total += ap.getWattage();
 		}
 		totalWattage = total;
-		System.out.printf("total wattage of room %d = %d\n", this.roomID, total);
+		System.out.printf("total wattage for room %d : %d\n", this.roomID, totalWattage);
 		return total;
 	}
 	
