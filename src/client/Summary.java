@@ -6,38 +6,31 @@ public class Summary {
 	
 	/* LINES 9-43 HANDLE SINGLE FRAME INFORMATION */
 	
+	private static int frame = 0;
+	
+	private static int numLowered = 0;
+	private static int numLocationsBrownedOut = 0;
+	
 	public static void startFrame() 
 	{
-		FrameReportInfo.reset();
+		frame++;
+		numLowered = 0;
+		numLocationsBrownedOut = 0;
 	}
+	
 	public static void incNumLowered() 
 	{
-		FrameReportInfo.numLowered++;
+		numLowered++;
 	}
 	public static void incNumRoomsOut() 
 	{
-		FrameReportInfo.numLocationsBrownedOut++;
+		numLocationsBrownedOut++;
 	}
 	public static void outputFrameReport() 
 	{
-		System.out.printf("Time Step %d", FrameReportInfo.frame);
-		System.out.printf("Number of Smart Appliances switched to low power mode: %d\n", FrameReportInfo.numLowered);
-		System.out.printf("Number of Locations browned out: %d\n\n", FrameReportInfo.numLocationsBrownedOut);
-	}
-	
-	private class FrameReportInfo
-	{
-		private static int frame = 0;
-		
-		private static int numLowered;
-		private static int numLocationsBrownedOut;
-		
-		public static void reset() 
-		{
-			frame++;
-			numLowered = 0;
-			numLocationsBrownedOut = 0;
-		}	
+		System.out.printf("Time Step %d\n", frame);
+		System.out.printf("Number of Smart Appliances switched to low power mode: %d\n", numLowered);
+		System.out.printf("Number of Locations browned out: %d\n\n", numLocationsBrownedOut);
 	}
 	
 	/* LINES 47-X HANDLE INFORMATION UPDATED THROUGHOUT THE PROGRAM'S EXECUTION */

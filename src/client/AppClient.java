@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 class AppClient{
 	
-	public static void readAppFile(String file, ArrayList<Appliance> applianceList){ // method to read the comma seperated appliance file.
+	public static void readAppFile(String file, ArrayList<Appliance> applianceList, ArrayList<SmartAppliance> SAs){ // method to read the comma seperated appliance file.
 
 		Scanner scan;
-
-		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
 
 		try {
 			File myFile=new File(file);
@@ -39,6 +37,7 @@ class AppClient{
 				}
 				else {
 					app = new SmartAppliance(locationID, appName, onPower, probOn, lowRatio);
+					SAs.add((SmartAppliance)app);
 				}
 				
 				applianceList.add(app);
@@ -56,6 +55,7 @@ class AppClient{
 		
 		Scanner scan = new Scanner(System.in);
 		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
+		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
 		
 		String option1, appTextFile;
 		int maxWattage = -1, timeSteps = -1;
@@ -75,10 +75,10 @@ class AppClient{
 		}
 		
 		
-		System.out.println("Enter text file to read: ");
+		System.out.println("Enter path of file to read: ");
 		appTextFile = scan.nextLine();
 		appTextFile = scan.nextLine();
-		readAppFile(appTextFile, applianceList);
+		readAppFile(appTextFile, applianceList, SAs);
 		
 		
 		while(true){// Application menu to be displayed to the user.
@@ -99,13 +99,33 @@ class AppClient{
 			if(option1.equals("l")||option1.equals("L"))
 				Menus.listApp(applianceList);
 			if(option1.equals("f")||option1.equals("F"))
-				Menus.readApp(applianceList);
+				Menus.readApp(applianceList, SAs);
 			if(option1.equals("s")||option1.equals("S"))
-				break;
+				startSimulation(applianceList, SAs, timeSteps, maxWattage);
 			if(option1.equals("q")||option1.equals("Q"))
 				break;
 		}
 
+		
+		
+	}
+	
+	public static void printSimDetails() {
+		try {
+			FileWriter fw = new FileWriter("SimDetails.txt");
+			PrintWriter outputFile = new PrintWriter(fw);
+			outputFile.println("Appliances that were affected during the simulation: ");
+			outputFile.println("Locations that were affected during the simulation: ");
+			outputFile.close();
+			
+		}  catch (Exception E) {
+			System.out.println("ERROR");
+		}
+		
+	}
+	
+	private static void startSimulation(ArrayList<Appliance> applianceList, ArrayList<SmartAppliance> SAs, int timeSteps, int maxWattage) 
+	{
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		boolean roomFound = false;
 		
@@ -128,26 +148,7 @@ class AppClient{
 			roomFound = false;
 		}
 		
-		/*for (int i = 0; i < timeSteps; i++) {
-			//run simulation
-			
-			printSimDetails();
-		}*/
-		
-		
-	}
-	
-	public static void printSimDetails() {
-		try {
-			FileWriter fw = new FileWriter("SimDetails.txt");
-			PrintWriter outputFile = new PrintWriter(fw);
-			outputFile.println("Appliances that were affected during the simulation: ");
-			outputFile.println("Locations that were affected during the simulation: ");
-			outputFile.close();
-			
-		}  catch (Exception E) {
-			System.out.println("ERROR");
-		}
+		TheAlgorithm.run(rooms, SAs, timeSteps, maxWattage);
 		
 	}
 }

@@ -129,10 +129,10 @@ public class Menus {
             System.out.println();
         }
     }
-    public static void readApp(ArrayList<Appliance> applianceList) {
+    public static void readApp(ArrayList<Appliance> applianceList, ArrayList<SmartAppliance> SAs) {
         String tempFile;
     	System.out.println("Enter File Path:");
         tempFile = scnr.next();
-        AppClient.readAppFile(tempFile, applianceList);
+        AppClient.readAppFile(tempFile, applianceList, SAs);
     }
 }

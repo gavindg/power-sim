@@ -82,7 +82,7 @@ public class Appliance {
 	}
 	
 	
-	private void setWattage(int cw) 
+	protected void setWattage(int cw) 
 	{
 		this.currentWattage = cw;
 	}
