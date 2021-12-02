@@ -50,9 +50,23 @@ class AppClient{
 		}
 	}
 	
-	
+	public static void clearFiles() {
+        int counter = 1;
+        File dataFile;
+        while(true) {
+            dataFile = new File("SimDetails"+counter+".txt");
+            if(dataFile.delete()) {
+                counter++;
+            }
+            else {
+                System.out.println("Finished clearing data files.");
+                break;
+            }
+        }
+	}
 	public static void main(String []args){
 		
+		clearFiles();
 		Scanner scan = new Scanner(System.in);
 		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
 		ArrayList<SmartAppliance> SAs = new ArrayList<SmartAppliance>();
@@ -113,12 +127,11 @@ class AppClient{
 	public static void printSimDetails(int x, String report, String report2) {
 
 		try {
-			System.out.println(report+report2);
 			FileWriter fw = new FileWriter("SimDetails"+(x+1)+".txt");
 			PrintWriter outputFile = new PrintWriter(fw);
 			outputFile.println("Appliances that were affected during the simulation: ");
 			outputFile.println(report);
-			outputFile.println("Locations that were affected during the simulation: ");
+			outputFile.println("Locations that were browned out: ");
 			outputFile.println(report2);
 			outputFile.close();
 			

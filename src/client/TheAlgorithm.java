@@ -3,6 +3,7 @@ package client;
 import java.util.ArrayList;
 
 public class TheAlgorithm {
+	public static String report = "",report2 = "";
 	
 	public static void run(ArrayList<Room> rooms, ArrayList<SmartAppliance> SAs, int timeSteps, int maxWattage) 
 	{
@@ -13,7 +14,8 @@ public class TheAlgorithm {
 		// jesus code
 		for (int i = 0; i < timeSteps; i++) 
 		{
-			String report = "",report2 = "";
+			report = "";
+			report2 = "";
 			int totalWattage = 0;
 			Summary.startFrame();
 			boolean flag = false;
@@ -37,7 +39,7 @@ public class TheAlgorithm {
 					flag = true;
 					break;
 				}
-				int temp = lowerHighestLowWattage(SAs, report);
+				int temp = lowerHighestLowWattage(SAs);
 				
 				if (temp == -1) break;
 //				System.out.printf("[DEBUG]: reducing totalWattage by %d for a total Wattage of %d\n", temp, totalWattage);
@@ -53,7 +55,7 @@ public class TheAlgorithm {
 			// brown out rooms until we're under
 			do 
 			{
-				int[] out = brownOutOptimalRoom(rooms, totalWattage - maxWattage, report2, report);
+				int[] out = brownOutOptimalRoom(rooms, totalWattage - maxWattage);
 				if (out[0] == -1) 
 				{
 					System.out.println("Error: No more rooms to brown out, further optimization impossible");
@@ -92,7 +94,7 @@ public class TheAlgorithm {
 	 * - positive int: lowered the max SA and returned
 	 * - 1: no remaining SAs to lower
 	 * */
-	private static int lowerHighestLowWattage(ArrayList<SmartAppliance> SAs, String report) 
+	private static int lowerHighestLowWattage(ArrayList<SmartAppliance> SAs) 
 	{
 		int max = -1;
 		int maxIndex = -1;
@@ -115,7 +117,7 @@ public class TheAlgorithm {
 		{	
 			int ret = SAs.get(maxIndex).getOnWattage() - max;
 			SAs.get(maxIndex).setStatus(false);
-			report += SAs.get(maxIndex).getInfo() +"was lowered\n";
+			report += SAs.get(maxIndex).getInfo() +" was lowered\n";
 			Summary.incNumLowered();
 			return ret;
 		}
@@ -129,7 +131,7 @@ public class TheAlgorithm {
 	 * 
 	 * returns { -1, -1 } when no possible rooms remain to be browned out.
 	 * */
-	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference, String report2, String report) 
+	private static int[] brownOutOptimalRoom(ArrayList<Room> rooms, int difference) 
 	{
 		Room optimal = null;
 		for (int i = 0; i < rooms.size(); i++) 
