@@ -54,32 +54,31 @@ class AppClient{
 	
 	public static void main(String []args){
 		
-		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
-
-		
-		AppClient app = new AppClient();
-		//User interactive part
-		String option1, appTextFile;
 		Scanner scan = new Scanner(System.in);
-		int maxWattage, timeSteps;
+		ArrayList<Appliance> applianceList = new ArrayList<Appliance>();
 		
-		do {
+		String option1, appTextFile;
+		int maxWattage = -1, timeSteps = -1;
+		
+		while(maxWattage < 0) {
 			System.out.println("Enter max total wattage: ");
 			maxWattage = scan.nextInt();
 			if (maxWattage < 0)
 				System.out.println("Invalid input. Max wattage cannot be a negative number.");
-		} while (maxWattage < 0);
+		}
 		
-		do {
-			System.out.println("Enter number of time steps: ");
+		while(timeSteps <= 0) {
+			System.out.println("Enter time steps: ");
 			timeSteps = scan.nextInt();
 			if (timeSteps <= 0)
-				System.out.println("Invalid input. Time steps cannot be less than 1.");
-		} while (timeSteps <= 0);
+				System.out.println("Invalid input. Time steps cannot be a zero or negative number.");
+		}
 		
 		
-		System.out.println("Enter the name of the appliance text file: ");
+		System.out.println("Enter text file to read: ");
 		appTextFile = scan.nextLine();
+		appTextFile = scan.nextLine();
+		readAppFile(appTextFile, applianceList);
 		
 		
 		while(true){// Application menu to be displayed to the user.
@@ -107,7 +106,6 @@ class AppClient{
 				break;
 		}
 
-		readAppFile(appTextFile, applianceList);
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		boolean roomFound = false;
 		
@@ -136,13 +134,6 @@ class AppClient{
 			printSimDetails();
 		}*/
 		
-		for (int i = 0; i < rooms.size(); i++) {
-			System.out.println(rooms.get(i).getRoom().size());
-			for (int j = 0; j < rooms.get(i).getRoom().size(); j++) {
-				rooms.get(i).getRoom().get(j).printInfo();
-				System.out.println();
-			}
-		}
 		
 	}
 	
