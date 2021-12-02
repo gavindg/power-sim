@@ -1,7 +1,8 @@
 package client;
 
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -18,16 +19,21 @@ public class Menus {
         boolean isSmart;
         boolean input;
         System.out.println("Enter Name:");
-            tempName = scnr.next();
+      
+            tempName = scnr.nextLine();
         while(true) {
         	try {
-        		System.out.println("Enter On Wattage:");
-        		tempOnWattage = scnr.nextInt();
-        		break;
-        	} catch(InputMismatchException E){ 
-        		System.out.println("Input is not an Integer");
-        		scnr.next();
-        	}
+                System.out.println("Enter On Wattage:");
+                tempOnWattage = scnr.nextInt();
+                    if(tempOnWattage > 0)
+                        break;
+                throw new ArithmeticException();
+            } catch(InputMismatchException E){ 
+                System.out.println("Input is not an Integer greater than 0.");
+                scnr.next();
+            } catch(ArithmeticException E) {
+                System.out.println("Input is not an Integer greater than 0.");
+            }
         }
         while(true) {
         	try{
@@ -35,12 +41,13 @@ public class Menus {
         		tempProbOn = scnr.nextDouble();    
         		if (tempProbOn > 0 && tempProbOn <= 1)
         			break;
-        		throw new ArithmeticException("Input is not greater then 0 and less then/equal to 1."); 
+
+        		throw new ArithmeticException("Input is not greater than 0 and less than/equal to 1."); 
         	} catch(InputMismatchException E) {
-        		System.out.println("Input is not greater then 0 and less then/equal to 1.");
+        		System.out.println("Input is not greater than 0 and less than/equal to 1.");
         		scnr.next();
         	} catch(ArithmeticException E) {
-        		System.out.println("Input is not greater then 0 and less then/equal to 1.");
+        		System.out.println("Input is not greater than 0 and less than/equal to 1.");
         	}
         }
         while(true) {
@@ -80,10 +87,11 @@ public class Menus {
             				break;
             			throw new ArithmeticException(); 
             		} catch (InputMismatchException E) {
-            			System.out.println("Input is not greater then 0 and less then/equal to 1.");
+            			System.out.println("Input is not greater than 0 and less than/equal to 1.");
             			scnr.next();
             		} catch (ArithmeticException E) {
-            			System.out.println("Input is not greater then 0 and less then/equal to 1.");
+            			System.out.println("Input is not greater than 0 and less than/equal to 1.");
+
             		}
             	}
             }

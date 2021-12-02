@@ -62,10 +62,22 @@ class AppClient{
 		String option1, appTextFile;
 		Scanner scan = new Scanner(System.in);
 		int maxWattage, timeSteps;
-		System.out.println("Enter total wattage: ");
-		maxWattage = scan.nextInt();
-		System.out.println("Enter number of time steps: ");
-		timeSteps = scan.nextInt();
+		
+		do {
+			System.out.println("Enter max total wattage: ");
+			maxWattage = scan.nextInt();
+			if (maxWattage < 0)
+				System.out.println("Invalid input. Max wattage cannot be a negative number.");
+		} while (maxWattage < 0);
+		
+		do {
+			System.out.println("Enter number of time steps: ");
+			timeSteps = scan.nextInt();
+			if (timeSteps <= 0)
+				System.out.println("Invalid input. Time steps cannot be less than 1.");
+		} while (timeSteps <= 0);
+		
+		
 		System.out.println("Enter the name of the appliance text file: ");
 		appTextFile = scan.nextLine();
 		
@@ -111,15 +123,25 @@ class AppClient{
 			}
 			
 			if (!roomFound) {
-				rooms.add(new Room(currentAppliance.getID()));
+				Room newRoom = new Room(currentAppliance.getID());
+				newRoom.addAppliance(currentAppliance);
+				rooms.add(newRoom);
 			}
 			roomFound = false;
 		}
 		
-		for (int i = 0; i < timeSteps; i++) {
+		/*for (int i = 0; i < timeSteps; i++) {
 			//run simulation
 			
 			printSimDetails();
+		}*/
+		
+		for (int i = 0; i < rooms.size(); i++) {
+			System.out.println(rooms.get(i).getRoom().size());
+			for (int j = 0; j < rooms.get(i).getRoom().size(); j++) {
+				rooms.get(i).getRoom().get(j).printInfo();
+				System.out.println();
+			}
 		}
 		
 	}
